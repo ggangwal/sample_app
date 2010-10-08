@@ -8,10 +8,12 @@ class UsersController < ApplicationController
     @users = User.paginate(:page => params[:page])
   end
 
-  def show
+	def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(:page => params[:page])
     @title = @user.name
   end
+
   def new
 		@user = User.new
     @title = "Sign up"
@@ -43,10 +45,6 @@ class UsersController < ApplicationController
       render 'edit'
     end
   end
-
-	def authenticate
-		deny_access unless signed_in?
-	end
 
   def deny_access
 		#flash[:notice] = "Please sign in to access this page."
